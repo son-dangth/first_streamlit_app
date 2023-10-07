@@ -60,10 +60,22 @@ st.header("The fruit load list contains:")
 if st.button("Get Fruit Load List"):
     my_cnx = snowflake.connector.connect(**st.secrets["snowflake"])
     my_data_rows = get_fruit_load_list(my_cnx)
+    my_cnx.close()
     st.dataframe(my_data_rows)
 
-add_my_fruit = st.text_input("What fruit would you like to add?", "jackfruit")
-st.write("Thanks for adding ", add_my_fruit)
 
-# Don't run anything below this line
-st.stop()
+def insert_row_snowflake(newfruit, cnx):
+    with cnx.cursor() as my_cur:
+        my_cur.execute(
+            "insert into pc_rivery_db.public.fruit_load_list (fruit_name) values ('"
+            + newfruit
+            + "')",
+        )
+        return f"Thanks for adding {newfruit}!"
+
+
+add_my_fruit = st.text_input("What fruit would you like to add?", "jackfruit")
+if st.button("Add Fruit"):
+    with snowflake.connector.connect(**st.secrets["snowflake"]) as my_cnx:
+        response = insert_row_snowflake(add_my_fruit, my_cnx)
+    st.success(response)
