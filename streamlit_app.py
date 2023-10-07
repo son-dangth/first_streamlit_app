@@ -74,8 +74,8 @@ def insert_row_snowflake(newfruit, cnx):
         return f"Thanks for adding {newfruit}!"
 
 
-add_my_fruit = st.text_input("What fruit would you like to add?", "jackfruit")
-if st.button("Add Fruit"):
-    with snowflake.connector.connect(**st.secrets["snowflake"]) as my_cnx:
-        response = insert_row_snowflake(add_my_fruit, my_cnx)
-    st.success(response)
+# add_my_fruit = st.text_input("What fruit would you like to add?", "jackfruit")
+# if st.button("Add Fruit"):
+#     with snowflake.connector.connect(**st.secrets["snowflake"]) as my_cnx:
+#         response = insert_row_snowflake(add_my_fruit, my_cnx)
+#     st.success(response)
